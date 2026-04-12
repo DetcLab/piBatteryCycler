@@ -158,24 +158,26 @@ class BQ25157:
         self._isafe = 550
 
 ########################################################################
-# Metodo interno 
-# Bloquea el puerto I2C para escribir o leer en el 
+# Metodo: Interno 
+# Función: Bloquea el puerto I2C para escribir o leer en el
+# Retorna:  
 ########################################################################
     def _lock(self):
         while not self._i2c.try_lock():
             pass
 
 ########################################################################
-# Metodo interno 
-# Desbloquea el puerto I2C una vez terminada la lectura/escritura
+# Metodo: Interno 
+# Función: Desbloquea el puerto I2C una vez terminada lectura/escritura
+# Retorna: 
 ########################################################################
     def _unlock(self):
         self._i2c.unlock()
 
 ########################################################################
 # Metodo interno 
-# Escribe el byte recibido en el puerto I2C en el registro recibido 
-# Devuelve False si hubi error o True si todo fue OK
+# Función: Escribe en el registro el dato recibido 
+# Retorna: False (error) True (OK)
 ########################################################################
     def _write_byte(self, register, value):
         self._lock()
@@ -191,9 +193,9 @@ class BQ25157:
             self._unlock()
 
 ########################################################################
-# Metodo interno 
-# Lee el byte  en el puerto I2C en el registro recibido 
-# Devuelve el byte leido o False si hubo algun error
+# Metodo: Interno 
+# Función: Lee el valor del registro recibido 
+# Retorna: Byte leido, False (error)
 ########################################################################
     def _read_byte(self, register):
         buffer = bytearray(1)
