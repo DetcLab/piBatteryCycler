@@ -1,0 +1,1 @@
+from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
