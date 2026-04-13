@@ -2,8 +2,6 @@
 # Direcciones de registro del BQ25175
 # El registro 06H solo puede escribirse una sola vez
 ###########################################################################################
-ADDR_BQ25157 = 0x6a  # Dirección I2C integrado
-
 REG_STATUS   = 0x00  # Registro de Estado y Control
 REG_CONTROL  = 0x01  # Registro de Control de Carga
 REG_VOLTAGE  = 0x02  # Registro de Control de Voltaje de Batería
@@ -144,7 +142,8 @@ ISAFE_VAL = {
 ########################################################################
 ########################################################################
 class BQ25157:
-    def __init__(self, i2c="", addr=ADDR_BQ25157):
+    def __init__(self, i2c="", addr=""):
+        self._safety_flag = False
         self._i2c = i2c  
         self._addr = addr
         self._flag_safe = False  # Bandera escritura registro 06H
@@ -215,6 +214,139 @@ class BQ25157:
 
 ########################################################################
 # Metodo: Externo 
-# Función: Configura el valor ILIMIT 
+# Función: Configura el valor de ILIMIT 
+# Registro: 01H | B6- B7 
 # Retorna: True (OK), False (error)
 ########################################################################    
+    def set_ilimit(self, ilimit):
+        array = ILIMIT_VAL.get(ilimit)
+        
+        if array != None:
+            byte = self._read_byte(REG_CONTROL)
+            array = array << 6
+            byte = byte & 0x3F
+            byte = byte | array
+            if (self._write_byte(REG_CONTROL, byte)):
+                return True
+        else:
+            return False
+
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor de VLOW
+# Registro: 01H | B4- B5 
+# Retorna: True (OK), False (error)
+########################################################################    
+    def set_vlow(self, vlow):
+        array = VLOW_VAL.get(vlow)
+        
+        if array != None:
+            byte = self._read_byte(REG_CONTROL)
+            array = array << 4
+            byte = byte & 0xCF
+            byte = byte | array
+            if (self._write_byte(REG_CONTROL, byte)):
+                return True
+        else:
+            return False
+
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor de VREG
+# Registro: 02H | B2- B7 
+# Retorna: True (OK), False (error)
+########################################################################    
+    def set_vreg(self, vreg):
+        array = VREG_VAL.get(vreg)
+        
+        if array != None:
+            byte = self._read_byte(REG_VOLTAGE)
+            array = array << 2
+            byte = byte & 0x03
+            byte = byte | array
+            if (self._write_byte(REG_VOLTAGE, byte)):
+                return True
+        else:
+            return False
+        
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor de ICHG
+# Registro: 04H | B4 - B6
+# Retorna: True (OK), False (error)
+########################################################################    
+    def set_ichg(self, ichg):
+        array = ICHG_VAL.get(ichg)
+        
+        if array != None:
+            byte = self._read_byte(REG_CHARGE)
+            array = array << 4
+            byte = byte & 0x8F
+            byte = byte | array
+            if (self._write_byte(REG_CHARGE, byte)):
+                return True
+        else:
+            return False
+
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor de ITERM
+# Registro: 04H | B0 - B2
+# Retorna: True (OK), False (error)
+########################################################################    
+    def set_iterm(self, iterm):
+        array = ITERM_VAL.get(iterm)
+        
+        if array != None:
+            byte = self._read_byte(REG_CHARGE)
+            byte = byte & 0xF8
+            byte = byte | array
+            if (self._write_byte(REG_CHARGE, byte)):
+                return True
+        else:
+            return False
+ 
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor de VDPM
+# Registro: 05H | B0 - B2
+# Retorna: True (OK), False (error)
+########################################################################    
+    def set_vdpm(self, vdpm):
+        array = VDPM_VAL.get(vdpm)
+        
+        if array != None:
+            byte = self._read_byte(REG_SPECIAL)
+            byte = byte & 0xF8
+            byte = byte | array
+            if (self._write_byte(REG_SPECIAL, byte)):
+                return True
+        else:
+            return False
+
+ 
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor de Intensidad & tensión Seguridad
+# Registro: 06H | Intensidad B4 - B7 | Tensión B0 - B3
+# Retorna: True (OK), False (error)
+# Este registro solo puedo escribirse una vez y antes de cualquier otro
+########################################################################    
+    def set_safety(self, vsafe, isafe):     
+        array_v = VSAFE_VAL.get(vsafe)
+        array_i = ISAFE_VAL.get(isafe)
+                    
+        if (array_v != None) & (array_i != None) & (self._safety_flag == False):
+            array_i = array_i << 4
+            byte = array_i | array_v
+            self.imprime(byte)
+            if (self._write_byte(REG_SAFETY, byte)):
+                self._safety_flag = True
+                return True
+        else:
+            return False
+
+
+    def imprime(self, byte):
+        print(f"Byte: {byte:08b}")
+        return
