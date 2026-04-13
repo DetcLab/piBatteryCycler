@@ -2,6 +2,6 @@ from hardware import BatteryCycler
 
 bc = BatteryCycler()
 
-print(f"{bc.charge.lee(0x01):08b}")
-bc.charge.escribe(0x01, 0xFF)
-print(f"{bc.charge.lee(0x01):08b}")
+print(f"{bc.charger.lee(0x01):08b}")
+bc.charger.escribe(0x01, 0xFF)
+print(f"{bc.charger.lee(0x01):08b}")

@@ -202,7 +202,8 @@ class BQ25157:
 
         self._lock()
         try:
-            self._i2c.writeto_then_readfrom(self._addr, bytes([register]), buffer)
+            self._i2c.writeto_then_readfrom(self._addr, 
+                            bytes([register]), buffer)
         
         except:
             return False
@@ -211,11 +212,9 @@ class BQ25157:
             self._unlock()
 
         return buffer[0]
-    
-    def lee(self, byte):
-        byte_read = self._read_byte(byte)
-        return byte_read
-    
-    def escribe(self, reg, data):
-        self._write_byte(reg, data)
-        return 
+
+########################################################################
+# Metodo: Externo 
+# Función: Configura el valor ILIMIT 
+# Retorna: True (OK), False (error)
+########################################################################    
