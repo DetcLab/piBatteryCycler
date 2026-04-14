@@ -1,1 +1,6 @@
 from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
+
+
+class ADC():
+    def __init__(self):
+        

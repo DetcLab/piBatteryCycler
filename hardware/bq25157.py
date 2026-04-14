@@ -169,10 +169,9 @@ ISAFE_VAL = {
 ########################################################################
 class BQ25157:
     def __init__(self, i2c="", addr=""):
-        self._safety_flag = False
+        self._safety_flag = False # Bandera escritura registro 06H
         self._i2c = i2c  
         self._addr = addr
-        self._flag_safe = False  # Bandera escritura registro 06H
         self._ilimit = 100 # Intensidad limite de entrada 100mA 
         self._vlow = 3.70 
         self._vreg = 3.54
@@ -253,6 +252,7 @@ class BQ25157:
             byte = byte & 0x3F
             byte = byte | array
             if (self._write_byte(REG_CONTROL, byte)):
+                self._ilimit = ilimit
                 return True
         else:
             return False
@@ -272,6 +272,7 @@ class BQ25157:
             byte = byte & 0xCF
             byte = byte | array
             if (self._write_byte(REG_CONTROL, byte)):
+                self._vlow = vlow
                 return True
         else:
             return False
@@ -291,6 +292,7 @@ class BQ25157:
             byte = byte & 0x03
             byte = byte | array
             if (self._write_byte(REG_VOLTAGE, byte)):
+                self._vreg = vreg
                 return True
         else:
             return False
@@ -310,6 +312,7 @@ class BQ25157:
             byte = byte & 0x8F
             byte = byte | array
             if (self._write_byte(REG_CHARGE, byte)):
+                self._ichg = ichg
                 return True
         else:
             return False
@@ -328,6 +331,7 @@ class BQ25157:
             byte = byte & 0xF8
             byte = byte | array
             if (self._write_byte(REG_CHARGE, byte)):
+                self._iterm = iterm
                 return True
         else:
             return False
@@ -346,6 +350,7 @@ class BQ25157:
             byte = byte & 0xF8
             byte = byte | array
             if (self._write_byte(REG_SPECIAL, byte)):
+                self._vdpm = vdpm
                 return True
         else:
             return False
@@ -365,6 +370,8 @@ class BQ25157:
             array_i = array_i << 4
             byte = array_i | array_v
             if (self._write_byte(REG_SAFETY, byte)):
+                self._isafe = isafe
+                self._vsafe = vsafe
                 self._safety_flag = True
                 return True
         else:
@@ -478,7 +485,7 @@ class BQ25157:
 
 ########################################################################
 # Metodo: Externo 
-# Función: Activa (True) reset paramtros menos 06H
+# Función: Activa (True) reset parametros menos 06H
 # Registro: 04H B7 ( reset )
 # Retorna: True (OK), False (error)
 ########################################################################  
@@ -488,6 +495,34 @@ class BQ25157:
         byte = byte | (1 << 7) # Activa reset registos
        
         if (self._write_byte(REG_CHARGE, byte)):
+            self._ilimit = 100 # Intensidad limite de entrada 100mA 
+            self._vlow = 3.70 
+            self._vreg = 3.54
+            self._ichg = 550
+            self._iterm = 100
+            self._vdpm = 4.52
+            self._vsafe = 4.20
+            self._isafe = 550
             return True
         
         return False
+
+########################################################################
+# Metodo: Externo 
+# Función: Devuelve valor parametros definidos
+# Registro:
+# Retorna: Diccionario con parametros
+########################################################################   
+    def get_config(self):
+        report ={
+            "ILIMIT": self._ilimit,
+            "VLOW":   self._vlow,
+            "VREG":   self._vreg,
+            "ICHG":   self._ichg,
+            "ITERM":  self._iterm,
+            "VDPM":   self._vdpm,
+            "VSAFE":  self._vsafe,
+            "ISAFE":  self._isafe
+        }
+        
+        return report
