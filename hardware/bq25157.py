@@ -11,6 +11,32 @@ REG_SPECIAL  = 0x05  # Registro de Voltaje Especial y Estado de Pines
 REG_SAFETY   = 0x06  # Registro de Límites de Seguridad (Escritura prioritaria)
 
 ########################################################################
+# Registro: 00H | Bits: B5-B4
+# Configura: Estado de la Carga (STAT)
+########################################################################
+CHARGE_STATUS = {
+    0b00: "Listo (Ready)",
+    0b01: "Carga en progreso",
+    0b10: "Carga finalizada (Done)",
+    0b11: "Falla detectada (Fault)"
+}
+
+########################################################################
+# Registro: 00H | Bits: B2-B0
+# Configura: Fallas en Modo Cargador (FAULT - Charge Mode)
+########################################################################
+CHARGE_FAULT = {
+    0b000: "Normal (Sin fallas)",
+    0b001: "VBUS OVP (Sobrevoltaje en entrada)",
+    0b010: "Modo Sleep (VBUS muy bajo)",
+    0b011: "Adaptador pobre o VBUS < UVLO",
+    0b100: "OVP de Salida (Voltaje de batería alto)",
+    0b101: "Apagado térmico (Thermal Shutdown)",
+    0b110: "Falla del temporizador (Timer Fault)",
+    0b111: "Batería no detectada"
+}
+
+########################################################################
 # Registro: 01H | Bits: B7-B6
 # Configura: Límite de Corriente de Entrada (ILIMIT)
 # Valor por Defecto: 100 mA 
@@ -323,7 +349,6 @@ class BQ25157:
                 return True
         else:
             return False
-
  
 ########################################################################
 # Metodo: Externo 
@@ -339,14 +364,130 @@ class BQ25157:
         if (array_v != None) & (array_i != None) & (self._safety_flag == False):
             array_i = array_i << 4
             byte = array_i | array_v
-            self.imprime(byte)
             if (self._write_byte(REG_SAFETY, byte)):
                 self._safety_flag = True
                 return True
         else:
             return False
 
+########################################################################
+# Metodo: Externo 
+# Función: Lee todos los registros en formato bit
+# Registro: 00H - 06H
+# Retorna: Dicionario con registo y estados, False (error)
+########################################################################  
+    def get_bytes_raw(self):
+        reg_00 = (f"{self._read_byte(REG_STATUS):08b}")
+        reg_01 = (f"{self._read_byte(REG_CONTROL):08b}")
+        reg_02 = (f"{self._read_byte(REG_VOLTAGE):08b}")
+        reg_03 = (f"{self._read_byte(REG_VENDOR):08b}")
+        reg_04 = (f"{self._read_byte(REG_CHARGE):08b}")
+        reg_05 = (f"{self._read_byte(REG_SPECIAL):08b}")
+        reg_06 = (f"{self._read_byte(REG_SAFETY):08b}")
+        
+        report = {
+            "STATUS[00] ": reg_00,
+            "CONTROL[01]": reg_01,
+            "VOLTAGE[02]": reg_02,
+            "VENDOR[03] ": reg_03,
+            "CHARGE[04] ": reg_04,
+            "SPECIAL[05]": reg_05,
+            "SAFETY[06] ": reg_06
+        }
+        
+        return report
+    
+########################################################################
+# Metodo: Externo 
+# Función: Lee el estado y errores del cargador
+# Registro: 00H  B0-B2 (errores) B4-B5 (estado)
+# Retorna: Dicionario con estado y errores del cargador
+########################################################################  
+    def get_status(self):
+        byte = self._read_byte(REG_STATUS)
+        
+        status = byte & 0x30
+        status = status >> 4
+        fault = byte & 0x07
+        
+        report = {
+            "Estado": CHARGE_STATUS.get(status),
+            "Error": CHARGE_STATUS.get(fault)
+        }
 
-    def imprime(self, byte):
-        print(f"Byte: {byte:08b}")
-        return
+        return report
+
+########################################################################
+# Metodo: Externo 
+# Función: Activa (True) desactiva (False) el cargador
+# Registro: 01H  B2 (habilitacion de la carga) B1 (alta impedancia)
+# Retorna: True (OK), False (error)
+########################################################################  
+    def enable_charger(self, value):
+        byte = self._read_byte(REG_CONTROL)
+
+        if value:
+            byte = byte & ~(1 << 2) # Activa la carga
+            byte = byte & ~(1 << 1) # Desactiva modo alta impedancia    
+        else:
+            byte = byte | (1 << 2)  # Desactiva la carga
+            byte = byte | (1 << 1)  # Activa modo alta impedancia
+        
+        if (self._write_byte(REG_CONTROL, byte)):
+            return True
+        
+        return False
+
+########################################################################
+# Metodo: Externo 
+# Función: Activa (True) desactiva (False) intensidad de terminación
+# Registro: 01H  B3 (intensidad de terminación)
+# Retorna: True (OK), False (error)
+########################################################################  
+    def enable_iterm(self, value):
+        byte = self._read_byte(REG_CONTROL)
+
+        if value:
+            byte = byte | (1 << 3) # Activa intensidad de terminación
+        else:
+            byte = byte & ~(1 << 3)  # Desactiva intensidad terminación
+        
+        if (self._write_byte(REG_CONTROL, byte)):
+            return True
+        
+        return False
+    
+########################################################################
+# Metodo: Externo 
+# Función: Activa (True) desactiva (False) carga lenta
+# Registro: 05H B5 ( Carga lenta)
+# Retorna: True (OK), False (error)
+########################################################################  
+    def enable_lowchg(self, value):
+        byte = self._read_byte(REG_SPECIAL)
+
+        if value:
+            byte = byte | (1 << 5) # Activa carga lenta
+        else:
+            byte = byte & ~(1 << 5)  # Desactiva carga lenta
+        
+        if (self._write_byte(REG_SPECIAL, byte)):
+            return True
+        
+        return False
+
+########################################################################
+# Metodo: Externo 
+# Función: Activa (True) reset paramtros menos 06H
+# Registro: 04H B7 ( reset )
+# Retorna: True (OK), False (error)
+########################################################################  
+    def reset(self):
+        byte = self._read_byte(REG_CHARGE)
+
+        byte = byte | (1 << 7) # Activa reset registos
+       
+        if (self._write_byte(REG_CHARGE, byte)):
+            return True
+        
+        return False
