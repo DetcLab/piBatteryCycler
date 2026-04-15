@@ -1,30 +1,31 @@
 import adafruit_mcp4725
-
-#################### QUITAR EN PRODUCCION ###########
-import RPi.GPIO as GPIO
-
-RELE = 17  # GPIO17
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(RELE, GPIO.OUT)
-#######################################################
+from .class_config import ConfigLoad
 
 class DAC:
     def __init__(self, i2c="", addr=""):
         self._dac = adafruit_mcp4725.MCP4725(i2c, address=addr)
+        self._iload = 0
 
     def set_iload(self, iload):
-        out = int((iload * 4095) / 2000)
-        self._dac.raw_value = out
-        return
- 
- 
- ######### QUITAR EN PRODUCCION ########################   
-    def rele(self, value):
+        if iload > 2000:
+            iload = 2000
+        elif iload < 0:
+            iload = 0
+        self._iload = iload  
+
+        return self._iload
+
+    def enable_load(self, value):
         if value:
-            GPIO.output(RELE, GPIO.HIGH)
+            out = int((self._iload * 4095) / 2000)
+
         else:
-            GPIO.output(RELE, GPIO.LOW)
+            out = 0
+                
+        self._dac.raw_value = out
 
         return
-#########################################################
+    
+    def get_config(self):
+        cfg = ConfigLoad(self._iload)
+        return cfg

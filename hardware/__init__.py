@@ -1,3 +1,3 @@
-from .battery_cycler import BatteryCycler
+from .battery_cycler import Ciclador
 
-__all__ = ["BatteryCycler"]
+__all__ = ["Ciclador", "Config"]

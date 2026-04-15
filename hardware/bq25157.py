@@ -1,3 +1,5 @@
+from .class_config import ConfigCharge
+
 ###########################################################################################
 # Direcciones de registro del BQ25175
 # El registro 06H solo puede escribirse una sola vez
@@ -169,7 +171,6 @@ ISAFE_VAL = {
 ########################################################################
 class BQ25157:
     def __init__(self, i2c="", addr=""):
-        self._safety_flag = False # Bandera escritura registro 06H
         self._i2c = i2c  
         self._addr = addr
         self._ilimit = 100 # Intensidad limite de entrada 100mA 
@@ -180,7 +181,12 @@ class BQ25157:
         self._vdpm = 4.52
         self._vsafe = 4.20
         self._isafe = 550
+        self._safety_flag = False # Bandera escritura registro 06H
+        self._lowchg = True        
 
+    def __repr__(self):
+        return f"{self.__class__.__name__} | (ILIMIT: {self._ilimit}, VLOW: {self._vlow}, VREG: {self._vreg}, ICHG: {self._ichg}, ITERM: {self._iterm}, VDPM: {self._vdpm}, VSAFE: {self._vsafe}, ISAFE: {self._isafe}, LOWCHG: {self._lowchg})"
+ 
 ########################################################################
 # Metodo: Interno 
 # Función: Bloquea el puerto I2C para escribir o leer en el
@@ -475,8 +481,10 @@ class BQ25157:
 
         if value:
             byte = byte | (1 << 5) # Activa carga lenta
+            self._lowchg = True
         else:
             byte = byte & ~(1 << 5)  # Desactiva carga lenta
+            self._lowchg = False
         
         if (self._write_byte(REG_SPECIAL, byte)):
             return True
@@ -503,6 +511,7 @@ class BQ25157:
             self._vdpm = 4.52
             self._vsafe = 4.20
             self._isafe = 550
+            self._lowchg = True
             return True
         
         return False
@@ -514,15 +523,16 @@ class BQ25157:
 # Retorna: Diccionario con parametros
 ########################################################################   
     def get_config(self):
-        report ={
-            "ILIMIT": self._ilimit,
-            "VLOW":   self._vlow,
-            "VREG":   self._vreg,
-            "ICHG":   self._ichg,
-            "ITERM":  self._iterm,
-            "VDPM":   self._vdpm,
-            "VSAFE":  self._vsafe,
-            "ISAFE":  self._isafe
-        }
+        cfg = ConfigCharge(
+            ilimit = self._ilimit,
+            vlow = self._vlow,
+            vreg = self._vreg,
+            ichg = self._ichg,
+            iterm = self._iterm,
+            vdpm = self._vdpm,
+            vsafe = self._vsafe,
+            isafe = self._isafe,
+            lowchg = self._lowchg
+        )
         
-        return report
+        return cfg
