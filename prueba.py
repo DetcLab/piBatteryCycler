@@ -12,23 +12,33 @@ i2c = busio.I2C(board.SCL, board.SDA)
 
 bq = BQ25157(i2c, ADDR_BQ)
 
-print(bq)
-
-cfg = bq.get_config()
-
-print(cfg)
-
-cfg.vlow = 3.2
-cfg.ichg = 1250
-print(cfg)
 bq.reset()
-print(cfg)
+
+print(bq.read_config())
+for reg in bq.read_bytes_raw().items():
+     print(reg)
 
 
 
+bq.config.ichg = 1250
+bq.config.lowchg = False
+bq.config.ilimit = 500
+bq.config.iterm = 250
+bq.write_config()
 
 
 
+print("\n")
+print(bq.read_config())
+for reg in bq.read_bytes_raw().items():
+     print(reg)
+
+bq.reset()
+
+print("\n")
+print(bq.read_config())
+for reg in bq.read_bytes_raw().items():
+     print(reg)
 
 
 

@@ -173,20 +173,25 @@ class BQ25157:
     def __init__(self, i2c="", addr=""):
         self._i2c = i2c  
         self._addr = addr
-        self._ilimit = 100 # Intensidad limite de entrada 100mA 
-        self._vlow = 3.70 
-        self._vreg = 3.54
-        self._ichg = 550
-        self._iterm = 100
-        self._vdpm = 4.52
-        self._vsafe = 4.20
-        self._isafe = 550
-        self._safety_flag = False # Bandera escritura registro 06H
-        self._lowchg = True        
+        self._safety_flag = False
+        self.config_default()
 
-    def __repr__(self):
-        return f"{self.__class__.__name__} | (ILIMIT: {self._ilimit}, VLOW: {self._vlow}, VREG: {self._vreg}, ICHG: {self._ichg}, ITERM: {self._iterm}, VDPM: {self._vdpm}, VSAFE: {self._vsafe}, ISAFE: {self._isafe}, LOWCHG: {self._lowchg})"
- 
+########################################################################
+# Configuracion por defecto
+########################################################################        
+    def config_default(self):
+        self.config = ConfigCharge (
+                    ilimit = 100, 
+                    vlow = 3.70,
+                    vreg = 3.54,
+                    ichg = 550,
+                    iterm = 100,
+                    vdpm = 4.52,
+                    vsafe = 4.20,
+                    isafe = 550,  
+                    lowchg = False        
+                    )   
+
 ########################################################################
 # Metodo: Interno 
 # Función: Bloquea el puerto I2C para escribir o leer en el
@@ -258,7 +263,7 @@ class BQ25157:
             byte = byte & 0x3F
             byte = byte | array
             if (self._write_byte(REG_CONTROL, byte)):
-                self._ilimit = ilimit
+                self.config.ilimit = ilimit
                 return True
         else:
             return False
@@ -278,7 +283,7 @@ class BQ25157:
             byte = byte & 0xCF
             byte = byte | array
             if (self._write_byte(REG_CONTROL, byte)):
-                self._vlow = vlow
+                self.config.vlow = vlow
                 return True
         else:
             return False
@@ -298,7 +303,7 @@ class BQ25157:
             byte = byte & 0x03
             byte = byte | array
             if (self._write_byte(REG_VOLTAGE, byte)):
-                self._vreg = vreg
+                self.config.vreg = vreg
                 return True
         else:
             return False
@@ -318,7 +323,7 @@ class BQ25157:
             byte = byte & 0x8F
             byte = byte | array
             if (self._write_byte(REG_CHARGE, byte)):
-                self._ichg = ichg
+                self.config.ichg = ichg
                 return True
         else:
             return False
@@ -337,7 +342,7 @@ class BQ25157:
             byte = byte & 0xF8
             byte = byte | array
             if (self._write_byte(REG_CHARGE, byte)):
-                self._iterm = iterm
+                self.config.iterm = iterm
                 return True
         else:
             return False
@@ -356,7 +361,7 @@ class BQ25157:
             byte = byte & 0xF8
             byte = byte | array
             if (self._write_byte(REG_SPECIAL, byte)):
-                self._vdpm = vdpm
+                self.config.vdpm = vdpm
                 return True
         else:
             return False
@@ -376,8 +381,8 @@ class BQ25157:
             array_i = array_i << 4
             byte = array_i | array_v
             if (self._write_byte(REG_SAFETY, byte)):
-                self._isafe = isafe
-                self._vsafe = vsafe
+                self.config.isafe = isafe
+                self.config.vsafe = vsafe
                 self._safety_flag = True
                 return True
         else:
@@ -389,7 +394,7 @@ class BQ25157:
 # Registro: 00H - 06H
 # Retorna: Dicionario con registo y estados, False (error)
 ########################################################################  
-    def get_bytes_raw(self):
+    def read_bytes_raw(self):
         reg_00 = (f"{self._read_byte(REG_STATUS):08b}")
         reg_01 = (f"{self._read_byte(REG_CONTROL):08b}")
         reg_02 = (f"{self._read_byte(REG_VOLTAGE):08b}")
@@ -399,13 +404,13 @@ class BQ25157:
         reg_06 = (f"{self._read_byte(REG_SAFETY):08b}")
         
         report = {
-            "STATUS[00] ": reg_00,
+            "STATUS [00]": reg_00,
             "CONTROL[01]": reg_01,
             "VOLTAGE[02]": reg_02,
-            "VENDOR[03] ": reg_03,
-            "CHARGE[04] ": reg_04,
+            "VENDOR [03]": reg_03,
+            "CHARGE [04]": reg_04,
             "SPECIAL[05]": reg_05,
-            "SAFETY[06] ": reg_06
+            "SAFETY [06]": reg_06
         }
         
         return report
@@ -416,7 +421,7 @@ class BQ25157:
 # Registro: 00H  B0-B2 (errores) B4-B5 (estado)
 # Retorna: Dicionario con estado y errores del cargador
 ########################################################################  
-    def get_status(self):
+    def status(self):
         byte = self._read_byte(REG_STATUS)
         
         status = byte & 0x30
@@ -481,10 +486,10 @@ class BQ25157:
 
         if value:
             byte = byte | (1 << 5) # Activa carga lenta
-            self._lowchg = True
+            self.config.lowchg = True
         else:
             byte = byte & ~(1 << 5)  # Desactiva carga lenta
-            self._lowchg = False
+            self.config.lowchg = False
         
         if (self._write_byte(REG_SPECIAL, byte)):
             return True
@@ -503,15 +508,8 @@ class BQ25157:
         byte = byte | (1 << 7) # Activa reset registos
        
         if (self._write_byte(REG_CHARGE, byte)):
-            self._ilimit = 100 # Intensidad limite de entrada 100mA 
-            self._vlow = 3.70 
-            self._vreg = 3.54
-            self._ichg = 550
-            self._iterm = 100
-            self._vdpm = 4.52
-            self._vsafe = 4.20
-            self._isafe = 550
-            self._lowchg = True
+            self.config_default()
+            self.write_config()
             return True
         
         return False
@@ -522,17 +520,22 @@ class BQ25157:
 # Registro:
 # Retorna: Diccionario con parametros
 ########################################################################   
-    def get_config(self):
-        cfg = ConfigCharge(
-            ilimit = self._ilimit,
-            vlow = self._vlow,
-            vreg = self._vreg,
-            ichg = self._ichg,
-            iterm = self._iterm,
-            vdpm = self._vdpm,
-            vsafe = self._vsafe,
-            isafe = self._isafe,
-            lowchg = self._lowchg
-        )
-        
-        return cfg
+    def read_config(self):
+        return self.config
+
+########################################################################
+# Metodo: Externo 
+# Función: Devuelve valor parametros definidos
+# Registro:
+# Retorna: Diccionario con parametros
+########################################################################   
+    def write_config(self):
+        self.set_safety(self.config.vsafe, self.config.isafe)
+        self.set_ichg(self.config.ichg)
+        self.set_ilimit(self.config.ilimit)
+        self.set_iterm(self.config.iterm)
+        self.set_vdpm(self.config.vdpm)
+        self.set_vlow(self.config.vlow)
+        self.set_vreg(self.config.vreg)
+
+        return
