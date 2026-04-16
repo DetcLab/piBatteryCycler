@@ -1,92 +1,137 @@
-from hardware.bq25157 import BQ25157
-
-import board
-import busio
-import time
-
-
-ADDR_BQ = 0x6a
-
-
-i2c = busio.I2C(board.SCL, board.SDA)
-
-bq = BQ25157(i2c, ADDR_BQ)
-
-bq.reset()
-
-print(bq.read_config())
-for reg in bq.read_bytes_raw().items():
-     print(reg)
-
-
-
-bq.config.ichg = 1250
-bq.config.lowchg = False
-bq.config.ilimit = 500
-bq.config.iterm = 250
-bq.write_config()
-
-
-
-print("\n")
-print(bq.read_config())
-for reg in bq.read_bytes_raw().items():
-     print(reg)
-
-bq.reset()
-
-print("\n")
-print(bq.read_config())
-for reg in bq.read_bytes_raw().items():
-     print(reg)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # from hardware import Ciclador
-# import time 
+# import time
+
 
 # c = Ciclador()
 
-# c.config_load.iload=1005
-# c.config_carga()
 
-# c.config_charge.ichg = 650
-# c.config_charge.ilimit = 000
-# c.config_charge.vreg = 4.20
-# c.config_charge.lowchg = False
+# print(c.lee_param_cargador())
 
-# # c.bq25.set_ichg(650)
-# # c.bq25.set_ilimit(000)
-# # c.bq25.set_vreg(4.20)
-# # c.bq25.enable_lowchg(False)
+# for reg in c.lee_registros().items():
+#      print(reg)
 
-# print(c.modo("reposo"))
+# #c.config_cargador.isafe = 1250
+# #c.config_cargador.vsafe = 4.2
+# c.config_cargador.ichg = 750
+# c.config_cargador.ilimit = 000
+
+
+# print("\n")
+# print(c.graba_param_cargador())
+
+# for reg in c.lee_registros().items():
+#      print(reg)
+
+
+# print(c.modo("descarga"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import board
+# import busio
+# import time
+# from hardware.bq25157 import BQ25157
+
+# ADDR_BQ = 0x6a
+
+
+# i2c = busio.I2C(board.SCL, board.SDA)
+
+# bq = BQ25157(i2c, ADDR_BQ)
+
+# bq.reset()
+
+# print(bq.read_config())
+# for reg in bq.read_bytes_raw().items():
+#      print(reg)
+
+
+
+# bq.config.ichg = 1250
+# bq.config.lowchg = False
+# bq.config.ilimit = 500
+# bq.config.iterm = 250
+# bq.write_config()
+
+
+
+# print("\n")
+# print(bq.read_config())
+# for reg in bq.read_bytes_raw().items():
+#      print(reg)
+
+# bq.reset()
+
+# print("\n")
+# print(bq.read_config())
+# for reg in bq.read_bytes_raw().items():
+#      print(reg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from hardware import Ciclador
+import time 
+
+c = Ciclador()
+
+c.config_carga.iload=1005
+c.graba_param_carga()
+
+c.config_cargador.ichg = 650
+c.config_cargador.ilimit = 000
+c.config_cargador.vreg = 4.20
+c.config_cargador.lowchg = False
+c.graba_param_cargador()
+
+print(c.lee_param_cargador())
+for reg in c.lee_registros().items():
+     print(reg)
+
+print(c.modo("reposo"))
+
+c.bq25.reset()
+
+print(c.lee_param_cargador())
+for reg in c.lee_registros().items():
+     print(reg)
 
 # while 1:
 #     print(f"{c.intensidad():.2f} Amperios")

@@ -5,6 +5,7 @@ class DAC:
     def __init__(self, i2c="", addr=""):
         self._dac = adafruit_mcp4725.MCP4725(i2c, address=addr)
         self._iload = 0
+        self.config = self.get_config()
 
     def set_iload(self, iload):
         if iload > 2000:

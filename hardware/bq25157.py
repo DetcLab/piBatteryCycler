@@ -174,12 +174,6 @@ class BQ25157:
         self._i2c = i2c  
         self._addr = addr
         self._safety_flag = False
-        self.config_default()
-
-########################################################################
-# Configuracion por defecto
-########################################################################        
-    def config_default(self):
         self.config = ConfigCharge (
                     ilimit = 100, 
                     vlow = 3.70,
@@ -189,9 +183,9 @@ class BQ25157:
                     vdpm = 4.52,
                     vsafe = 4.20,
                     isafe = 550,  
-                    lowchg = False        
-                    )   
-
+                    lowchg = True 
+                    )       
+       
 ########################################################################
 # Metodo: Interno 
 # Función: Bloquea el puerto I2C para escribir o leer en el
@@ -373,10 +367,10 @@ class BQ25157:
 # Retorna: True (OK), False (error)
 # Este registro solo puedo escribirse una vez y antes de cualquier otro
 ########################################################################    
-    def set_safety(self, vsafe, isafe):     
+    def set_safety(self, vsafe, isafe):  
         array_v = VSAFE_VAL.get(vsafe)
         array_i = ISAFE_VAL.get(isafe)
-                    
+               
         if (array_v != None) & (array_i != None) & (self._safety_flag == False):
             array_i = array_i << 4
             byte = array_i | array_v
@@ -508,8 +502,13 @@ class BQ25157:
         byte = byte | (1 << 7) # Activa reset registos
        
         if (self._write_byte(REG_CHARGE, byte)):
-            self.config_default()
-            self.write_config()
+            self.config.ilimit = 100
+            self.config.vlow = 3.70
+            self.configvreg = 3.54
+            self.config.ichg = 550
+            self.config.iterm = 100
+            self.config.vdpm = 4.52
+            self.config.lowchg = True 
             return True
         
         return False
@@ -529,7 +528,7 @@ class BQ25157:
 # Registro:
 # Retorna: Diccionario con parametros
 ########################################################################   
-    def write_config(self):
+    def write_config(self):        
         self.set_safety(self.config.vsafe, self.config.isafe)
         self.set_ichg(self.config.ichg)
         self.set_ilimit(self.config.ilimit)

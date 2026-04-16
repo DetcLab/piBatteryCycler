@@ -17,17 +17,54 @@ class Ciclador:
         self.bq25 = BQ25157(i2c, ADDR_BQ)
         self.adc = ADC(i2c, ADDR_ADC)
         self.load = DAC(i2c, ADDR_DAC)    
-        self.config_charge = self.bq25.get_config()     
-        self.config_load = self.load.get_config()
-        
-    def config_cargador(self, config):
-        print(self.config_charge.ilimit)
-        print(self.config_load.iload)
-        pass
+        self.config_cargador = self.bq25.config
+        self.config_carga = self.load.config
+              
+    def lee_param_cargador(self):
+        return self.config_cargador
     
-    def config_carga(self):
+    def lee_param_carga(self):
         self.load.set_iload(self.config_load.iload)
         pass
+
+    def graba_param_cargador(self):
+        self.bq25.write_config()
+        return self.config_cargador
+    
+    def graba_param_carga(self):
+        self.load.set_iload(self.config_carga.iload)
+        return self.config_carga
+    
+    def lee_registros(self):
+        return self.bq25.read_bytes_raw()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def modo(self, modo=""): # modo carga | descarga | reposo
         
@@ -39,6 +76,7 @@ class Ciclador:
         elif modo == "carga":
             self.load.enable_load(False)
             time.sleep(1)
+            self.bq25.enable_lowchg(False)
             self.bq25.enable_charger(True)
             return "carga"
         
@@ -50,15 +88,12 @@ class Ciclador:
 
         else:
             return False
-    
-    def configuracion(self):
-        iload = self.load.get_iload()
-        report = self.bq25.get_config()
-        report["ILOAD"]=iload
-        return report 
+   
 
-    def registros(self):
-        return self.bq25.get_bytes_raw()
+
+
+
+ 
     
     def tension(self):
         tension = self.adc.get_voltage()

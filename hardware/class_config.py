@@ -2,7 +2,7 @@ class ConfigCharge:
     def __init__(self, ilimit, vlow, vreg, ichg, iterm, vdpm, vsafe, isafe, lowchg):
         self.ilimit = ilimit
         self.vlow = vlow
-        self.vreg  = vreg
+        self.vreg = vreg
         self.ichg = ichg
         self.iterm = iterm
         self.vdpm = vdpm
