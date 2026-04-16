@@ -174,7 +174,7 @@ class BQ25157:
         self._i2c = i2c  
         self._addr = addr
         self._safety_flag = False
-        self.config = ConfigCharge (
+        self.config_default = ConfigCharge (
                     ilimit = 100, 
                     vlow = 3.70,
                     vreg = 3.54,
@@ -184,8 +184,12 @@ class BQ25157:
                     vsafe = 4.20,
                     isafe = 550,  
                     lowchg = True 
-                    )       
-       
+                    )      
+        self.config  = self.config_default
+
+    def __repr__(sefl):
+        return self.config_default
+    
 ########################################################################
 # Metodo: Interno 
 # Función: Bloquea el puerto I2C para escribir o leer en el

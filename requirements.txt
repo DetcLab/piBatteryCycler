@@ -4,6 +4,8 @@ adafruit-circuitpython-ads1x15==3.0.3
 adafruit-circuitpython-busdevice==5.2.16
 adafruit-circuitpython-connectionmanager==3.1.7
 adafruit-circuitpython-mcp4725==1.4.20
+adafruit-circuitpython-neopixel==6.4.1
+adafruit-circuitpython-pixelbuf==2.0.11
 adafruit-circuitpython-requests==4.1.16
 adafruit-circuitpython-typing==1.12.3
 Adafruit-PlatformDetect==3.88.0

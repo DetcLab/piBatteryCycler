@@ -1,3 +1,4 @@
-from .battery_cycler import Ciclador
+from .pi_cycler import Ciclador
 
-__all__ = ["Ciclador", "Config"]
+
+__all__ = ["Ciclador"]
