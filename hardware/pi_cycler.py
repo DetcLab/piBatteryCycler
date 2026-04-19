@@ -103,11 +103,11 @@ class Ciclador:
     def tension(self):
         tension = self.adc.get_voltage()
         return tension
-    
-    def temperatura(self):
-        temperatura = self.adc.get_temperature()
-        return temperatura
 
     def intensidad(self):
         intensidad = self.adc.get_current()
         return intensidad
+    
+    def temperatura(self):
+        temperatura = self.adc.get_temperature()
+        return temperatura
