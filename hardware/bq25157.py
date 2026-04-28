@@ -1,6 +1,20 @@
 from .class_config import ConfigCharge
 
 ###########################################################################################
+# Ajuste del perfil de configuración por defecto 
+# al crear la clase
+###########################################################################################
+ILIMIT_DEFAULT = 00
+VLOW_DEFAULT   = 3.70
+VREG_DEFAULT   = 4.2
+ICHG_DEFAULT   = 550
+ITERN_DEFAULT  = 50
+VDPM_DEFAULT   = 4.52
+VSAFE_DEFAULT  = 4.20
+ISAFE_DEFAULT  = 1250  
+LOWCHG_DEFAULT = False
+
+###########################################################################################
 # Direcciones de registro del BQ25175
 # El registro 06H solo puede escribirse una sola vez
 ###########################################################################################
@@ -175,15 +189,15 @@ class BQ25157:
         self._addr = addr
         self._safety_flag = False
         self.config_default = ConfigCharge (
-                    ilimit = 100, 
-                    vlow = 3.70,
-                    vreg = 3.54,
-                    ichg = 550,
-                    iterm = 100,
-                    vdpm = 4.52,
-                    vsafe = 4.20,
-                    isafe = 550,  
-                    lowchg = True 
+                    ilimit = ILIMIT_DEFAULT, 
+                    vlow   = VLOW_DEFAULT,
+                    vreg   = VREG_DEFAULT,
+                    ichg   = ICHG_DEFAULT,
+                    iterm  = ITERN_DEFAULT,
+                    vdpm   = VDPM_DEFAULT,
+                    vsafe  = VSAFE_DEFAULT,
+                    isafe  = ISAFE_DEFAULT,  
+                    lowchg = LOWCHG_DEFAULT 
                     )      
         self.config  = self.config_default
 
@@ -197,7 +211,7 @@ class BQ25157:
 ########################################################################
     def _lock(self):
         while not self._i2c.try_lock():
-            pass
+            return
 
 ########################################################################
 # Metodo: Interno 
@@ -206,6 +220,7 @@ class BQ25157:
 ########################################################################
     def _unlock(self):
         self._i2c.unlock()
+        return
 
 ########################################################################
 # Metodo interno 
@@ -506,13 +521,7 @@ class BQ25157:
         byte = byte | (1 << 7) # Activa reset registos
        
         if (self._write_byte(REG_CHARGE, byte)):
-            self.config.ilimit = 100
-            self.config.vlow = 3.70
-            self.configvreg = 3.54
-            self.config.ichg = 550
-            self.config.iterm = 100
-            self.config.vdpm = 4.52
-            self.config.lowchg = True 
+            self.config = self.config_default
             return True
         
         return False

@@ -7,9 +7,9 @@ from .ads1115 import ADC
 from .mcp4725 import DAC
 from .led_soc import LedSoc
 
-ADDR_BQ = 0x6a
-ADDR_ADC = 0x48
-ADDR_DAC = 0x60
+ADDR_BQ  = 0x6a # Dirección I2C cargador
+ADDR_ADC = 0x48 # Dirección I2C convertidor ADC 
+ADDR_DAC = 0x60 # Direccíon I2C convertidor DAC
 
 i2c = busio.I2C(board.SCL, board.SDA)
               
@@ -20,10 +20,12 @@ class Ciclador:
         self.load = DAC(i2c, ADDR_DAC)    
         self.led = LedSoc(0.1)
         self.config_cargador = self.bq25.config
+        self.config_cargador_defecto = self.bq25.config_default
         self.config_carga = self.load.config
      
 
     def configura_defecto(sefl):
+        self.config_cargador = self.config_cargador_defecto
         pass
 
     def graba_param_cargador(self):

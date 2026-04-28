@@ -14,15 +14,16 @@ c = Ciclador()
 
 c.modo(estado_proceso)
 
-c.config_carga.iload = 1000
+c.config_carga.iload =  500
 c.graba_param_carga()
 
-c.config_cargador.vreg = 4.2
-c.config_cargador.ilimit = 000
-c.config_cargador.ichg = 650
-c.config_cargador.lowchg = False
-c.config_cargador.isafe = 1250
-c.config_cargador.vsafe = 4.20
+# c.config_cargador.vreg = 4.2
+# c.config_cargador.ilimit = 000
+# c.config_cargador.ichg = 650
+# c.config_cargador.lowchg = False
+# c.config_cargador.isafe = 1250
+# c.config_cargador.vsafe = 4.20
+# c.config_cargador.iterm = 50
 print(c.graba_param_cargador())
 
 
@@ -51,7 +52,7 @@ def simulador_sensores():
             'temperatura': t
         })
 
-        socketio.sleep(5) # Actualiza cada segundo
+        socketio.sleep(2) # Actualiza cada segundo
 
 @socketio.on('connect')
 def handle_connect():
