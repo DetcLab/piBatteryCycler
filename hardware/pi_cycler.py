@@ -4,12 +4,14 @@ import time
 
 from .bq25157 import BQ25157
 from .ads1115 import ADC
+from .ina219 import INA219
 from .mcp4725 import DAC
 from .led_soc import LedSoc
 
 ADDR_BQ  = 0x6a # Dirección I2C cargador
 ADDR_ADC = 0x48 # Dirección I2C convertidor ADC 
 ADDR_DAC = 0x60 # Direccíon I2C convertidor DAC
+ADDR_INA = 0x40 # Dirección I2C INA219
 
 i2c = busio.I2C(board.SCL, board.SDA)
               
@@ -17,6 +19,7 @@ class Ciclador:
     def __init__(self):
         self.bq25 = BQ25157(i2c, ADDR_BQ)
         self.adc = ADC(i2c, ADDR_ADC)
+        self.ina = INA219(i2c, ADDR_INA)
         self.load = DAC(i2c, ADDR_DAC)    
         self.led = LedSoc(0.1)
         self.config_cargador = self.bq25.config
@@ -103,11 +106,11 @@ class Ciclador:
  
     
     def tension(self):
-        tension = self.adc.get_voltage()
+        tension = self.ina.get_voltage()
         return tension
 
     def intensidad(self):
-        intensidad = self.adc.get_current()
+        intensidad = self.ina.get_current()
         return intensidad
     
     def temperatura(self):

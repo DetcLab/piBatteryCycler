@@ -10,18 +10,21 @@ class DAC:
     def write_config(self, iload):
         if iload > 2000:
             iload = 2000
+
         elif iload < 0:
             iload = 0
-        self.config.iload = iload 
+        
+        self.config.iload = iload
 
         return
 
     def enable_load(self, value):
         if value:
-            out = int((self.config.iload * 4095) / 2000)
+            out = int((self.config.iload * 4036) / 2000)
+	        
         else:
             out = 0
-            
+        
         self._dac.raw_value = out
 
         return
