@@ -15,12 +15,11 @@ class DAC:
             iload = 0
         
         self.config.iload = iload
-
         return
 
     def enable_load(self, value):
         if value:
-            out = int((self.config.iload * 4036) / 2000)
+            out = int((self.config.iload * 4017) / 2000)
 	        
         else:
             out = 0

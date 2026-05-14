@@ -51,8 +51,8 @@ const chart = new Chart(ctx, {
       yA: {
         type: 'linear',
         position: 'right',
-        min: -2.0,
-        max: 2.0,
+        min: -2.5,
+        max: 2.5,
         title: {
           display: true,
           text: 'Intensidad (A)',

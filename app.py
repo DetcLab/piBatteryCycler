@@ -1,4 +1,4 @@
-#import random
+import random
 from flask import Flask, render_template,url_for
 from flask_socketio import SocketIO
 from hardware import Ciclador
@@ -14,7 +14,7 @@ c = Ciclador()
 
 c.modo(estado_proceso)
 
-c.config_carga.iload =  500
+c.config_carga.iload = 150
 print(c.graba_param_carga())
 
 # c.config_cargador.vreg = 4.2
