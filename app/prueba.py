@@ -1,4 +1,4 @@
-from firmware import Ciclador
+from firmware.picycler import Ciclador
 import time 
 
 c = Ciclador()
@@ -16,15 +16,16 @@ print(c.graba_param_cargador())
 
 # for reg in c.lee_registros().items():
 #      print(reg)
-print(c.modo("reposo"))
+print(c.modo("descarga"))
 
 # print(c.lee_param_cargador())
 # for reg in c.lee_registros().items():
 #      print(reg)
 
-# while 1:
-#     print(f"{c.intensidad():.3f} Amperios")
-#     print(f"{c.tension():.2f} Voltios")
-#     print(f"{c.temperatura():.1f} ºC")
+while 1:
 
-#     time.sleep(2)
+    print(f"{c.intensidad():.3f} Amperios")
+    print(f"{c.tension():.2f} Voltios")
+    print(f"{c.temperatura():.1f} ºC")
+
+    time.sleep(2)
