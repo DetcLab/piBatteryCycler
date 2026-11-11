@@ -1,0 +1,833 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "049a6f2d-a013-427b-a38c-18f8fe81d5d7")
+	(paper "A4")
+	(title_block
+		(title "PI BATTERY CYCLER")
+		(date "2024-11-22")
+		(rev "1")
+		(company "DETCLAB")
+		(comment 1 "22112024JCB")
+		(comment 2 "Juanjo")
+		(comment 3 "Salva")
+	)
+	(lib_symbols)
+	(junction
+		(at 139.7 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "28578820-a695-4c7a-8a0e-d1103ee0fcd4")
+	)
+	(junction
+		(at 167.64 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "490d030c-a4c0-46e5-ae3c-6240fcf559a6")
+	)
+	(junction
+		(at 143.51 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "51ce3515-fa76-4232-b4a4-73f2b11e3f42")
+	)
+	(junction
+		(at 165.1 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "beb3ba57-7955-4ad9-a8bd-031a7adbf66c")
+	)
+	(junction
+		(at 160.02 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e348bd07-b8fa-4799-952b-227fda24a05f")
+	)
+	(wire
+		(pts
+			(xy 143.51 60.96) (xy 143.51 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "010aea89-1bc8-42f8-88ca-ad0a488d1613")
+	)
+	(wire
+		(pts
+			(xy 124.46 128.27) (xy 160.02 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "05beaff6-27dd-441e-b688-c6dc7db9a328")
+	)
+	(wire
+		(pts
+			(xy 88.9 73.66) (xy 139.7 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c1c2394-8b5e-40cb-98d6-76c3243cce32")
+	)
+	(wire
+		(pts
+			(xy 191.77 73.66) (xy 191.77 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d657daa-8bf7-4720-a1fe-e9ac989afad5")
+	)
+	(wire
+		(pts
+			(xy 195.58 77.47) (xy 195.58 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d20f03b-6ec6-4aa6-9891-effe5a40431b")
+	)
+	(wire
+		(pts
+			(xy 92.71 92.71) (xy 92.71 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2a4dbf97-cdb2-4c7a-9bf7-cacf7a281fac")
+	)
+	(wire
+		(pts
+			(xy 165.1 73.66) (xy 191.77 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e866c7d-502f-40f1-bf19-9d6e83e2c583")
+	)
+	(wire
+		(pts
+			(xy 199.39 92.71) (xy 199.39 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "42424a23-6af1-4885-98d4-6325eec73463")
+	)
+	(wire
+		(pts
+			(xy 167.64 77.47) (xy 167.64 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "43110ed8-277f-42c7-a947-734d091e3c54")
+	)
+	(wire
+		(pts
+			(xy 139.7 60.96) (xy 139.7 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4462705a-3846-444a-9719-8be408f41c9f")
+	)
+	(wire
+		(pts
+			(xy 160.02 118.11) (xy 160.02 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50dabdce-9998-4d62-8320-e5f6f3481054")
+	)
+	(wire
+		(pts
+			(xy 162.56 69.85) (xy 147.32 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "544741ff-4ef8-4143-9c3b-d1aa2f003cc6")
+	)
+	(wire
+		(pts
+			(xy 124.46 118.11) (xy 124.46 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "694ce10c-8678-445b-8966-17e88588d91b")
+	)
+	(wire
+		(pts
+			(xy 160.02 128.27) (xy 195.58 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a6dd0b0-ae72-4241-b437-2e270a6dd9b0")
+	)
+	(wire
+		(pts
+			(xy 143.51 77.47) (xy 167.64 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f007924-cd52-4bd4-b01c-733dfeea5e33")
+	)
+	(wire
+		(pts
+			(xy 92.71 77.47) (xy 143.51 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9665feb5-d215-4c75-a72d-ff00536dfc8b")
+	)
+	(wire
+		(pts
+			(xy 167.64 77.47) (xy 195.58 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4865ce4-779f-42ca-8ee2-7f7d3b906260")
+	)
+	(wire
+		(pts
+			(xy 88.9 92.71) (xy 88.9 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a79ec085-b855-40a9-a450-4b626fdb858d")
+	)
+	(wire
+		(pts
+			(xy 102.87 105.41) (xy 111.76 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b912ac9a-37bb-4a32-aa60-2b0d0ec85ef5")
+	)
+	(wire
+		(pts
+			(xy 147.32 69.85) (xy 147.32 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c2fb063b-d89c-4efc-9423-523fb4f2582d")
+	)
+	(wire
+		(pts
+			(xy 199.39 41.91) (xy 152.4 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4736898-4c09-4ce9-b5df-e8f07a0d7551")
+	)
+	(wire
+		(pts
+			(xy 162.56 92.71) (xy 162.56 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6492284-508f-4558-957b-d4731a674907")
+	)
+	(wire
+		(pts
+			(xy 139.7 73.66) (xy 165.1 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec87f5f0-e571-47e4-ac25-34a39be641ed")
+	)
+	(wire
+		(pts
+			(xy 195.58 118.11) (xy 195.58 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f01f427a-d12b-4d25-8a84-2f23bea134a9")
+	)
+	(wire
+		(pts
+			(xy 165.1 92.71) (xy 165.1 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fc3145ff-5577-4afc-b6ec-fdebdf9f94ff")
+	)
+	(sheet
+		(at 146.05 92.71)
+		(size 26.67 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "09683215-5559-4ad3-8cb9-7e43b6e589ab")
+		(property "Sheetname" "CARGADOR"
+			(at 146.05 91.9984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "cargador.kicad_sch"
+			(at 146.05 118.4406 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "SCL" input
+			(at 165.1 92.71 90)
+			(uuid "588ba452-a9e4-4631-b70a-c0e0a254a69d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SDA" bidirectional
+			(at 167.64 92.71 90)
+			(uuid "cd0aacf2-627d-417e-97cf-15e701b8ea8b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "V_IN" input
+			(at 162.56 92.71 90)
+			(uuid "387cd132-1eec-4ce8-bf25-58fcfdd2c49f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "VOUT" output
+			(at 160.02 118.11 270)
+			(uuid "5b6ea0ca-cd41-4c74-9f9c-1dd904d734ab")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 111.76 92.71)
+		(size 25.4 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "1402109f-45c2-41b5-93d6-4a8c829e1452")
+		(property "Sheetname" "CARGA"
+			(at 111.76 91.9984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "carga.kicad_sch"
+			(at 111.76 118.6946 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "INT_CONSIGNA" input
+			(at 111.76 105.41 180)
+			(uuid "e880fc90-37b9-47fc-9353-440cd2a4b64a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT" output
+			(at 124.46 118.11 270)
+			(uuid "35dde689-1646-4d92-9155-e2141000b28b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 181.61 92.71)
+		(size 26.67 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "22273a24-8f34-4092-b48b-aa41bf8cf247")
+		(property "Sheetname" "MEDIDOR"
+			(at 181.61 91.9984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "medidor.kicad_sch"
+			(at 181.61 118.4406 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "SCL" input
+			(at 191.77 92.71 90)
+			(uuid "1c994d6e-41d6-4294-9c81-84b7b8dca4ff")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SDA" bidirectional
+			(at 195.58 92.71 90)
+			(uuid "ab0be628-3451-4132-9549-d9eb327ff1dc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "TEMP" output
+			(at 199.39 92.71 90)
+			(uuid "c8267043-7e63-49a2-bc38-0f309cfff79d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "VIN+" input
+			(at 195.58 118.11 270)
+			(uuid "76b97d77-0a75-42e9-aeb9-8b8177c79375")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 78.74 92.71)
+		(size 24.13 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "3eb60019-7e8e-4f23-a115-5c563ca8a392")
+		(property "Sheetname" "DAC"
+			(at 78.74 91.9984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "dac.kicad_sch"
+			(at 78.74 118.6946 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "INT_CONSIGNA" output
+			(at 102.87 105.41 0)
+			(uuid "a33e3dfe-c7b6-46f7-a021-a770c3cb8113")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SCL" input
+			(at 88.9 92.71 90)
+			(uuid "f3c44224-2abc-4da5-9275-1b59c2b1e641")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SDA" bidirectional
+			(at 92.71 92.71 90)
+			(uuid "b69b25af-cdea-4c82-a5e5-0949f4410734")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 112.522 138.938)
+		(size 26.67 13.97)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "48752262-0870-41b4-9e69-7dffc1bc1d18")
+		(property "Sheetname" "PCB-SOC"
+			(at 112.522 138.2264 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "pcb-soc.kicad_sch"
+			(at 112.522 153.4926 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "8")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 142.748 138.938)
+		(size 26.67 13.97)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "5e3e5603-5cfb-4d60-a9f3-f7132e298aab")
+		(property "Sheetname" "PCB-BATERIA"
+			(at 142.748 137.668 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Sheetfile" "pcb-bateria.kicad_sch"
+			(at 142.748 164.6686 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 133.858 30.48)
+		(size 18.542 30.48)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+			(color 132 0 0 1)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "8630a6af-6a8c-428e-8e1e-7412423eb622")
+		(property "Sheetname" "RASPBERRY"
+			(at 133.858 29.7684 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "raspberry.kicad_sch"
+			(at 133.858 61.5446 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "SCL" output
+			(at 139.7 60.96 270)
+			(uuid "b7af8a95-8a0f-4753-ae44-4b135b9f3d78")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SDA" bidirectional
+			(at 143.51 60.96 270)
+			(uuid "7678f1b8-8abb-4598-8b10-d7dfedb033a5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "TEMP" input
+			(at 152.4 41.91 0)
+			(uuid "c1f68adc-005d-4fb0-9926-d15d0b3f9315")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "V_IN" output
+			(at 147.32 60.96 270)
+			(uuid "df14629e-6ba6-44a5-91c6-1c16a7cb140a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "pi_battery_cycler"
+				(path "/049a6f2d-a013-427b-a38c-18f8fe81d5d7"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+	(embedded_files
+		(file
+			(name "A4_DetcLab.kicad_wks")
+			(type worksheet)
+			(data |KLUv/WAdGv0dAIaibS5QbduQpeYamZlpYGQM2ysvfVjl/+dT8laUuRwDuPB4UC+9tHJn4RbfJKMq
+				vfAeYwBbAFsA11I3g671FklD/B0Ku9bbTr23Vp56ORtqXTNGN5bqYK7mr0js5phzM9TiMXpFYmv+
+				DJrdi78FAJ7P/cw1CcJANPOYywOxrZeyj/0mInX3c+eMVZrZrygACBDIKCwwGcqiFAUBEULX70V3
+				+xd7izE09GafifcuVjXNH2fVcy/+ImmoIb4Xf6trnU9rpW4ZQRgrKOWTsqvKtfuUUpJSRtFa6Oar
+				Ko+udZO8H6MLku5sPpOOnceXwd4+Zqt1r2jAAfwm5hFCM/sRFMd6Bef51P7DB0jFHbooaieI36I0
+				sLkhJKnX53aEXJpbQgkdzmY43V1s0YMtinhKs7WL3Qb++D3X3GOHDd259qTmF6XrhJ4IUjqw7FxO
+				MYqcxxgBAhHYIjnblJ+x6EVdyu6uPdhclKhMDvC9yCXYoA+8y5SAsVgg/E0YpspkgaIwYV8qEwaG
+				BgSp0kB5oERMLM3+2rGtV7UyV614+sZk4UK5aBBEyBVvaVvvZ7LPsagCSyiMbjhCHGKTAoDzoCFd
+				ZohkJgWFtBmARITEapwDBhQrtqxSEA7OP2HqRmGjNwVs1ceW3iAk00Dv+3lgsBh3w2vpB+wd12tQ
+				5YQWuigKpU0/gAUCh7CAQ4AnfSCoOy6B68IqnhQQL8CEBU9h9WEQa81DIGJoMIZAzmbvGIRXGzqs
+				tgSQsUXViSVaC8feuM1znka+B+HkCm0lWMSqRV31y+TpEn8DxkJPjgkiVGTUATDDWAqFdmjKZopB
+				TmQgVlkulo/ZETGju9oQvG8W2YQfWD6IATSXKpkSeIEPZwW6QJxzh6UvxCnEL5AfltIIHROI+d7B
+				Ip5SgGZeJwOGxA1IRfHCNikfPm99Mdvao6L76CggCKmJEpQGYXiU/osIQWofIeIhHBq0Rx6ZmMYs
+				RJIpkUekUzkDImlyegghJgmpEY8gkTrJY2ZMAERy0fbSu/ItxQSOdg/RDIlpXdob1mPKXOpQ2hJp
+				PXMFEEBzpcRK7R8PMsMmjQVy3h2tci37JJJ6qpBJSmEr8bKfy4ediEQLeRL2VFBM2NCENC4hPbdk
+				WyY8hhMOdb5J35f0MNPO9x6zrtj14KcVOUiBKj25pddZzs7zS2cwngm2TA8n9wDBlbKjMhX0UviB
+				S60X2gMvY5ia6tt6kKbTxaHPnEKDlx0ktkO2zM0IQZrQGWMpJdr07N2NV+LB/j7wEXSXtz6oY9Cr|
+			)
+			(checksum "461D9CBD8EAF8411117723A14DF075DA")
+		)
+	)
+)
