@@ -1,0 +1,56 @@
+
+# ==========================================
+# KiCad - Archivos temporales
+# ==========================================
+
+# Archivos de bloqueo
+*.lck
+
+# Copias de seguridad
+*.bak
+*-backup
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.kicad_prl-bak
+
+# Archivos de recuperación y temporales
+*.tmp
+*.swp
+*.swo
+*~
+
+# Configuración local del usuario
+*.kicad_prl
+fp-info-cache
+
+# ==========================================
+# Archivos de autoguardado
+# ==========================================
+
+*.autosave
+
+# ==========================================
+# Resultados de fabricación (Gerber, etc.)
+# ==========================================
+
+# Descomenta si no quieres guardar estos archivos:
+# Gerber/
+# Drill/
+# Fabrication/
+
+# ==========================================
+# Simulación
+# ==========================================
+
+*.raw
+*.log
+*.cir
+*.net
+
+# ==========================================
+# Sistema operativo
+# ==========================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
