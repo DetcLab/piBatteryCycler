@@ -1,215 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pi Battery Cycler</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PI BATTERY CYCLER V1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <div class="scada-container">
-    
-    <div class="scada-header">
-      <h2>PI BATTERY CYCLER</h2>
-      <div id="flashMessage" class="flash-Message">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-      {% for categoria, mensaje in messages %}
-      <div class="alert-box alert-{{ categoria }}">
-      <span class="alert-text">{{ mensaje }}</span>
-      </div>
-      {% endfor %}
-      {% endif %}
-      {% endwith %}
+<main>
+  <header>
+    <h1>PI BATTERY CYCLER V1.0</h1>
+    <span id="estado">Conectando…</span>
+  </header>
 
+  <section class="tarjetas">
+    <article class="tarjeta v"><h2>Tensión</h2><span class="valor" id="val-v">--</span><span class="unidad">V</span></article>
+    <article class="tarjeta i"><h2>Intensidad</h2><span class="valor" id="val-i">--</span><span class="unidad">A</span></article>
+    <article class="tarjeta t"><h2>Temperatura</h2><span class="valor" id="val-t">--</span><span class="unidad">°C</span></article>
+  </section>
 
-
-      </div>
+  <section class="control" aria-labelledby="tit-control">
+    <div class="control-cab">
+      <h3 id="tit-control">Control</h3>
+      <span id="modo-txt" data-modo="paro">En paro</span>
+      <span id="nivel"></span>
+      <p id="aviso" role="status"></p>
     </div>
-
-    <div class="scada-cards-row">
-      <div class="scada-card card-v">
-        <span class="card-title">TENSION</span>
-        <div id="tension" class="card-value txt-v">0.00 V</div>
-      </div>
-      <div class="scada-card card-i">
-        <span class="card-title">INTENSIDAD</span>
-        <div id="intensidad" class="card-value txt-i">0.000 A</div>
-      </div>
-      <div class="scada-card card-t">
-        <span class="card-title">TEMPERATURA</span>
-        <div id="temperatura" class="card-value txt-t">0.0 °C</div>
-      </div>
+    <div class="campos">
+      <div class="campo"><label for="i-carga">Intensidad de carga (A)</label><input id="i-carga" type="number" min="0.1" max="10" step="0.1" value="1"></div>
+      <div class="campo"><label for="i-descarga">Intensidad de descarga (A)</label><input id="i-descarga" type="number" min="0.1" max="10" step="0.1" value="1"></div>
+      <div class="campo"><label for="vmax">Tensión máxima (V)</label><input id="vmax" type="number" min="3.5" max="4.25" step="0.01" value="4.2"></div>
+      <div class="campo"><label for="vmin">Tensión mínima (V)</label><input id="vmin" type="number" min="2.5" max="3.6" step="0.01" value="3"></div>
     </div>
-
-    <div class="scada-row">
-      <div class="scada-block-chart">
-        <canvas id="graficaPrincipal"></canvas>
-      </div>
-      
-      <div class="scada-block-panel">
-        <div class="panel-section-title">🕹️ PANEL DE CONTROL Y ALERTAS</div>
-        
-        <div class="scada-terminal">
-          <div class="terminal-header">
-            <span>ESTADO: <strong id="estadoTexto" class="txt-ok">REPOSO</strong></span>
-          </div>
-          <div class="terminal-body" id="errores">
-            <div class="log-line info">[SYS] Inicializando monitorización pasiva...</div>
-            <div class="log-line success">{{config_carga.iload}}</div>
-             <div class="log-line success">{{config_carga.voff}}</div>
-              <div class="log-line success">{{config_cargador.ichg}}</div>
-               <div class="log-line success">{{config_cargador.vreg}}</div>
-          </div>
-        </div>
-        
-        <div class="scada-action-grid">
-          <button class="btn-scada btn-charge" onclick="accion('carga')">Carga</button>
-          <button class="btn-scada btn-discharge" onclick="accion('descarga')">Descarga</button>
-          <button class="btn-scada btn-idle" onclick="accion('reposo')">Reposo</button>
-        </div>
-      </div>
+    <div class="botones">
+      <button type="button" data-modo="carga" aria-pressed="false">Cargar</button>
+      <button type="button" data-modo="descarga" aria-pressed="false">Descargar</button>
+      <button type="button" data-modo="paro" aria-pressed="true">Paro</button>
     </div>
+  </section>
 
-    <div class="scada-row">
-      <div class="scada-block-chart">
-        <canvas id="graficaTemperatura"></canvas>
-      </div>
+  <section class="grafica">
+    <h3>Tensión e intensidad</h3>
+    <div class="lienzo"><canvas id="g-vi"></canvas></div>
+  </section>
 
-      <div class="scada-block-panel">
-        <div class="panel-section-title">⚙️ PARÁMETROS DE CONFIGURACIÓN</div>
-        
-        <form action="/config" method="POST" class="scada-form">
-          <div class="form-inputs-grid">
+  <section class="grafica">
+    <h3>Temperatura</h3>
+    <div class="lienzo"><canvas id="g-t"></canvas></div>
+  </section>
 
-            <div class="input-box">
-              <label>I-CARGA (mA)</label>
-             <select id="icarga" name="icarga" class="scada-select">
-              {% for valor in opc_ichg %}
-                <option value="{{ valor }}" {% if valor == config_cargador.ichg %}selected{% endif %}>
-                  {{ valor }} mA
-                </option>
-              {% endfor %}
-            </select>
-            </div>
-
-           <div class="input-box">
-              <label>V-REGULACIÓN (V)</label>
-              <select id="vreg" name="vreg" class="scada-select">
-             {% for valor in opc_vreg %}
-                <option value="{{ valor }}" {% if valor == config_cargador.vreg %}selected{% endif %}>
-                  {{ valor }} V
-                </option>
-              {% endfor %}
-            </select>
-            </div>
-
-            <div class="input-box">
-              <label>I-DESCARGA (mA)</label>
-             <select id="iload" name="iload" class="scada-select">
-             {% for valor in opc_iload %}
-                <option value="{{ valor }}" {% if valor == config_carga.iload  %}selected{% endif %}>
-                  {{ valor }} mA
-                </option>
-              {% endfor %}
-            </select>
-            </div>
-
-            <div class="input-box">
-              <label>V-OFF</label>
-             <select id="voff" name="voff" class="scada-select">
-             {% for valor in opc_voff %}
-                <option value="{{ valor }}" {% if valor == config_carga.voff %}selected{% endif %}>
-                  {{ valor }} V
-                </option>
-              {% endfor %}
-            </select>
-            </div>
-
-       
-
-          </div>
-          <button type="submit" class="btn-submit-scada">💾 GUARDAR CONFIGURACIÓN</button>
-        </form>
-      </div>
+  <section class="secuencia" aria-labelledby="tit-seq">
+    <div class="seq-cab">
+      <h3 id="tit-seq">Secuencia</h3>
+      <label class="unidad-sel">Tiempo en
+        <select id="seq-unidad" aria-label="Unidad de tiempo">
+          <option value="1">segundos</option>
+          <option value="60">minutos</option>
+          <option value="3600">horas</option>
+        </select>
+      </label>
     </div>
-
-    <div class="scada-block-panel">
-  <div class="panel-section-title">⚙️ CONFIGURACIÓN SECUENCIADOR DE CICLOS (10 PASOS)</div>
-  
-  <form action="/ciclo" method="POST" class="scada-form">
-    
-
-    <div class="scada-table-container">
-      <table class="scada-table">
-        <thead>
-          <tr>
-            <th>PASO</th>
-            <th>ESTADO DEL CICLADOR</th>
-            <th>I-CARGA (mA)</th>
-            <th>I-DESCARGA (mA)</th>
-            <th>TIEMPO (min)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for i in range(1, 11) %}
-          <tr>
-            <td class="txt-v" style="font-weight: bold; text-align: center;">#{{ "%02d" | format(i) }}</td>
-            <td>
-              <select name="ciclo_modo[]" class="scada-select-table">
-                <option value="reposo">Reposo</option>
-                <option value="carga">Carga (CC/CV)</option>
-                <option value="descarga">Descarga</option>
-              </select>
-            </td>
-            <td>
-              <div class="input-box">
-              <select id="icarga" name="ciclo_icarga[]" class="scada-select-table">
-              {% for valor in opc_ichg %}
-                <option value="{{ valor }}" {% if valor == config_cargador.ichg %}selected{% endif %}>
-                  {{ valor }} mA
-                </option>
-              {% endfor %}
-            </select>
-            </td>
-
-            <td>
-                <div class="input-box">
-              <select id="iload" name="ciclo_iload[]" class="scada-select-table">
-              {% for valor in opc_iload %}
-                <option value="{{ valor }}" {% if valor == config_carga.iload %}selected{% endif %}>
-                  {{ valor }} mA
-                </option>
-              {% endfor %}
-            </select>
-            </td>
-            <td>
-             <select name="ciclo_tiempo[]" class="scada-select-table txt-i" style="font-weight: bold;">
-            <option value="5">5 min</option>
-            <option value="10" selected>10 min</option>
-            <option value="15">15 min</option>
-            <option value="30">30 min</option>
-            <option value="45">45 min</option>
-            <option value="60">1 hora</option>
-            <option value="90">1.5 horas</option>
-            <option value="120">2 horas</option>
-          </select>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-       <button type="submit" class="btn-submit-scada" style="margin-top: 15px;">💾 INICIAR SECUENCIA</button>
+    <div class="fila cab"><span></span><span>Modo</span><span>Intensidad (A)</span><span>Tiempo</span></div>
+    <div id="seq-filas"></div>
+    <div class="seq-pie">
+      <button type="button" id="seq-ejecutar">Ejecutar secuencia</button>
+      <button type="button" id="seq-detener" disabled>Detener</button>
+      <span id="seq-estado">Secuencia detenida</span>
+      <p id="seq-aviso" role="status"></p>
     </div>
+  </section>
+</main>
 
-   
-  </form>
-</div>
-  </div>
-  
-  </body>
-  <script src="{{ url_for('static', filename='js/funciones.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

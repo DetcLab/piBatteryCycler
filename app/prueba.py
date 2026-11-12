@@ -16,7 +16,7 @@ print(c.graba_param_cargador())
 
 # for reg in c.lee_registros().items():
 #      print(reg)
-print(c.modo("descarga"))
+print(c.modo("carga"))
 
 # print(c.lee_param_cargador())
 # for reg in c.lee_registros().items():

@@ -112,11 +112,11 @@ class Ciclador:
 ######################################################################## 
     def modo(self, modo=""): # modo carga | descarga | reposo
         
-        if modo == "reposo":
+        if modo == "paro":
             self.bq25.enable_charger(False)
             self.load.enable_load(False)
             self.led.soc_green()
-            return "reposo"
+            return "paro"
         
         elif modo == "carga":
             self.load.enable_load(False)
